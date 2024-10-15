@@ -1,0 +1,16 @@
+# Ignore executable files
+*.exe
+
+# Ignore compiled libraries
+*.dll
+
+# Ignore binary files
+*.bin
+
+# Ignore all files in a folder
+bin/
+
+# Ignore all files without an extension
+*.
+
+.vscode/
