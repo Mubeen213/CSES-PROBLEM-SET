@@ -182,6 +182,10 @@ void divideIntoSets(int n) {
  * 3 5 6 (14)
  *
  */
+
+/**
+ * This also fails for larger test cases. Greedy approach
+ */
 void divideIntoSubsets(int n) {
 
     ll totalSum = (ll) n * (n + 1) / 2;
@@ -196,9 +200,9 @@ void divideIntoSubsets(int n) {
     vector<int> set1, set2;
     int currSum = 0;
     for(int i=n; i>=1; i--) {
-        if((currSum + i) <=  targetSum) {
-            currSum += i;
+        if(targetSum>=i) {
             set1.push_back(i);
+            targetSum -= i;
         } else {
             set2.push_back(i);
         }
@@ -209,6 +213,63 @@ void divideIntoSubsets(int n) {
         cout<<it<<" ";
     }
     cout<<"\n";
+    cout << set2.size() << "\n";
+    for (auto it : set2)
+    {
+        cout << it << " ";
+    }
+    cout << "\n";
+}
+
+void divideInto(int n) {
+
+    ll totalSum  = (ll) n * (n+1) / 2;
+
+    if((totalSum & 1) != 0) {
+        cout<<"NO\n";
+        return;
+    }
+
+    ll targetSum = (totalSum >> 1);
+    cout<<"Target Sum " <<targetSum<<" ";
+    vector<int> set1, set2;
+    // add into set 1 all values whose sum should be lesser than targetSum
+    // k * (k+1) / 2 <= targetSum
+    // k * (k+1) = 2 * targetSum
+    // k^2 = 2 * targetSum
+    // k = sqrt(2 * targetSum);
+
+    int k = sqrt(2 * targetSum);
+
+    while(( (ll) k*(k+1)) >  2 * targetSum) {
+        k--;
+    }
+
+    for(int i=1; i<=k; i++) {
+        set1.push_back(i);
+    }
+    ll sumOfFirstK = (ll) k * (k+1) / 2;
+    cout<<"Sum " << sumOfFirstK<<"\n";
+
+    cout << "YES\n";
+    int remainingSumNeended = (targetSum - sumOfFirstK);
+    cout<< (k + remainingSumNeended > 0 ? 1 : 0) <<" ";
+    if(sumOfFirstK < targetSum) {
+        set1.push_back(remainingSumNeended);
+    }
+
+    for(int i=k+1; i<=n; i++) {
+        if(i!=remainingSumNeended) {
+            set2.push_back(i);
+        }
+    }
+
+    cout << set1.size() << "\n";
+    for (auto it : set1)
+    {
+        cout << it << " ";
+    }
+    cout << "\n";
     cout << set2.size() << "\n";
     for (auto it : set2)
     {
