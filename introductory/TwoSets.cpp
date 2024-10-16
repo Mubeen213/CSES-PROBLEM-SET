@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 #define ll long long
 
@@ -12,7 +12,7 @@ using namespace std;
  * 1 2 4 7  (14)
  * 3
  * 3 5 6 (14)
- * 
+ *
  */
 
 /**
@@ -73,12 +73,14 @@ The extraction process effectively follows the choices made during the DP table 
 If you have any more questions or need further clarification, feel free to ask!
  */
 
-void printDpTable(int n, int targetSum, vector<vector<ll>> &dp) {
-    cout<<"    ";
-    for(int j=0; j<=targetSum; j++) {
+void printDpTable(int n, int targetSum, vector<vector<ll>> &dp)
+{
+    cout << "    ";
+    for (int j = 0; j <= targetSum; j++)
+    {
         cout << setw(3) << j << " ";
     }
-    cout<<endl;
+    cout << endl;
     for (int i = 0; i <= n; i++)
     {
         cout << setw(3) << i << " ";
@@ -109,55 +111,64 @@ void findSubset(int n, int targetSum, vector<vector<ll>> &dp, unordered_set<int>
     }
 }
 
-bool findTargetSum(int n, int sum, vector<vector<ll>> &dp) {
+bool findTargetSum(int n, int sum, vector<vector<ll>> &dp)
+{
 
-    if(sum == 0) {
+    if (sum == 0)
+    {
         return true;
     }
-    if(n==0) {
+    if (n == 0)
+    {
         return false;
     }
 
-    if(dp[n][sum] != -1) {
+    if (dp[n][sum] != -1)
+    {
         return dp[n][sum];
     }
 
-    int notPick = findTargetSum(n-1, sum, dp);
+    int notPick = findTargetSum(n - 1, sum, dp);
     int pick = false;
-    if(sum>=n) {
-        pick = findTargetSum(n-1, sum-n, dp);
+    if (sum >= n)
+    {
+        pick = findTargetSum(n - 1, sum - n, dp);
     }
     return dp[n][sum] = pick || notPick;
 }
 
+void divideIntoSets(int n)
+{
+    ll totalSum = (n * (n + 1) / 2);
 
-void divideIntoSets(int n) {
-    ll totalSum = (n*(n+1)/2);
-
-    if((totalSum & 1) != 0) {
-        cout<<"NO\n";
+    if ((totalSum & 1) != 0)
+    {
+        cout << "NO\n";
         return;
     }
-    cout<<"YES\n";
+    cout << "YES\n";
     // find a subset whose sum is totalSum/2;
-    ll targetSum = (totalSum>>1);
-    vector<vector<ll>> dp(n+1, vector<ll>(targetSum+1, -1));
+    ll targetSum = (totalSum >> 1);
+    vector<vector<ll>> dp(n + 1, vector<ll>(targetSum + 1, -1));
 
     findTargetSum(n, targetSum, dp);
     unordered_set<int> subset1;
     unordered_set<int> subset2;
     findSubset(n, targetSum, dp, subset1);
 
-    for(int i=1; i<=n; i++) {
-        if(subset1.find(i) == subset1.end()) {
+    for (int i = 1; i <= n; i++)
+    {
+        if (subset1.find(i) == subset1.end())
+        {
             subset2.insert(i);
         }
     }
-    cout<<subset1.size()<<"\n";
-    for(auto it: subset1) {
-        cout<<it<<" ";
+    cout << subset1.size() << "\n";
+    for (auto it : subset1)
+    {
+        cout << it << " ";
     }
-    cout<<"\n";
+    cout << "\n";
     cout << subset2.size() << "\n";
     for (auto it : subset2)
     {
@@ -165,7 +176,6 @@ void divideIntoSets(int n) {
     }
     cout << "\n";
 }
-
 
 // Solution expects us to solve in O(n) TC
 // trying greedy
@@ -184,14 +194,16 @@ void divideIntoSets(int n) {
  */
 
 /**
- * This also fails for larger test cases. Greedy approach
+ * This works correctly
  */
-void divideIntoSubsets(int n) {
+void divideIntoSubsets(int n)
+{
 
-    ll totalSum = (ll) n * (n + 1) / 2;
+    ll totalSum = (ll)n * (n + 1) / 2;
 
-    if((totalSum &1 ) != 0 ) {
-        cout<<"NO\n";
+    if ((totalSum & 1) != 0)
+    {
+        cout << "NO\n";
         return;
     }
 
@@ -199,20 +211,25 @@ void divideIntoSubsets(int n) {
 
     vector<int> set1, set2;
     int currSum = 0;
-    for(int i=n; i>=1; i--) {
-        if(targetSum>=i) {
+    for (int i = n; i >= 1; i--)
+    {
+        if (targetSum >= i)
+        {
             set1.push_back(i);
             targetSum -= i;
-        } else {
+        }
+        else
+        {
             set2.push_back(i);
         }
     }
-    cout<<"YES\n";
-    cout<<set1.size()<<"\n";
-    for(auto it: set1) {
-        cout<<it<<" ";
+    cout << "YES\n";
+    cout << set1.size() << "\n";
+    for (auto it : set1)
+    {
+        cout << it << " ";
     }
-    cout<<"\n";
+    cout << "\n";
     cout << set2.size() << "\n";
     for (auto it : set2)
     {
@@ -221,17 +238,20 @@ void divideIntoSubsets(int n) {
     cout << "\n";
 }
 
-void divideInto(int n) {
+// The below one did not work
+void divideInto(int n)
+{
 
-    ll totalSum  = (ll) n * (n+1) / 2;
+    ll totalSum = (ll)n * (n + 1) / 2;
 
-    if((totalSum & 1) != 0) {
-        cout<<"NO\n";
+    if ((totalSum & 1) != 0)
+    {
+        cout << "NO\n";
         return;
     }
 
     ll targetSum = (totalSum >> 1);
-    cout<<"Target Sum " <<targetSum<<" ";
+    cout << "Target Sum " << targetSum << " ";
     vector<int> set1, set2;
     // add into set 1 all values whose sum should be lesser than targetSum
     // k * (k+1) / 2 <= targetSum
@@ -241,25 +261,30 @@ void divideInto(int n) {
 
     int k = sqrt(2 * targetSum);
 
-    while(( (ll) k*(k+1)) >  2 * targetSum) {
+    while (((ll)k * (k + 1)) > 2 * targetSum)
+    {
         k--;
     }
 
-    for(int i=1; i<=k; i++) {
+    for (int i = 1; i <= k; i++)
+    {
         set1.push_back(i);
     }
-    ll sumOfFirstK = (ll) k * (k+1) / 2;
-    cout<<"Sum " << sumOfFirstK<<"\n";
+    ll sumOfFirstK = (ll)k * (k + 1) / 2;
+    cout << "Sum " << sumOfFirstK << "\n";
 
     cout << "YES\n";
     int remainingSumNeended = (targetSum - sumOfFirstK);
-    cout<< (k + remainingSumNeended > 0 ? 1 : 0) <<" ";
-    if(sumOfFirstK < targetSum) {
+    cout << (k + remainingSumNeended > 0 ? 1 : 0) << " ";
+    if (sumOfFirstK < targetSum)
+    {
         set1.push_back(remainingSumNeended);
     }
 
-    for(int i=k+1; i<=n; i++) {
-        if(i!=remainingSumNeended) {
+    for (int i = k + 1; i <= n; i++)
+    {
+        if (i != remainingSumNeended)
+        {
             set2.push_back(i);
         }
     }
@@ -278,8 +303,9 @@ void divideInto(int n) {
     cout << "\n";
 }
 
-int main() {
+int main()
+{
     int n;
-    cin>>n;
+    cin >> n;
     divideIntoSubsets(n);
 }
